@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1595843382 source:d:\documents\programming\lowestintmissing\lowestintmissing\lowestintmissing.c
+	<stdio.h>
+	<stdlib.h>
+
