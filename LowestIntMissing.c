@@ -62,6 +62,21 @@ main(){
     arrayLength = sizeof(uArray)/sizeof(uArray[0]);
     lowestInt = lowestIntMissing(uArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
+
+    //testing multiple missing numbers
+    printf("\ntesting multiple missing numbers\n");
+    int vArray[] = {1, 3, 5};
+    arrayLength = sizeof(vArray)/sizeof(vArray[0]);
+    lowestInt = lowestIntMissing(vArray, arrayLength);
+    printf("lowest Missing Integer = %d\n", lowestInt);
+
+    //testing missing multiple numbers
+    printf("\ntesting missing multiple numbers\n");
+    int wArray[] = {1, 2, 5};
+    arrayLength = sizeof(wArray)/sizeof(wArray[0]);
+    lowestInt = lowestIntMissing(wArray, arrayLength);
+    printf("lowest Missing Integer = %d\n", lowestInt);
+
     return 0;
 }
 
@@ -145,12 +160,12 @@ void missingInts(int* intArray, int arrayLength){
         }
     }
     else{
-    for (int i = 0; i < arrayLength; ++i){
-        printf("\t\t%d\n", *(intArray + i));
+        for (int i = 0; i < arrayLength; ++i){
+            printf("\t\t%d\n", *(intArray + i));
+        }
     }
     printf("\t\t%d\n", out);
 
-    }
 }
 
 //TODO:look for missing ints
