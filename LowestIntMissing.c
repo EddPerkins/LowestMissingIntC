@@ -6,24 +6,25 @@ void sortArray(int*, int);
 int getArrayLength(int*);
 int removeDuplicates(int*, int);
 int missingInts(int*, int);
+void showArray(int*, int);
 
 int comparetor (const void *, const void *);
 
 main(){
-
     int lowestInt;
 
     //testing duplicates
     printf("\ntesting with duplicated numbers\n");
     int iArray[] = {1, 4, 2, 1};
     int arrayLength = sizeof(iArray)/sizeof(iArray[0]);
-    printf("array length = %d\n", arrayLength);
+    showArray(iArray, arrayLength);
     lowestInt = lowestIntMissing(iArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
     //testing consecutive, positive only
     printf("\ntesting consecutive positive integers\n");
     int pArray[] = {1, 2, 3};
+    showArray(pArray, arrayLength);
     arrayLength = sizeof(pArray)/sizeof(pArray[0]);
     lowestInt = lowestIntMissing(pArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
@@ -31,6 +32,7 @@ main(){
     //testing single element array
     printf("\ntesting single element array\n");
     int qArray[] = {1};
+    showArray(qArray, arrayLength);
     arrayLength = sizeof(qArray)/sizeof(qArray[0]);
     lowestInt = lowestIntMissing(qArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
@@ -38,6 +40,7 @@ main(){
     //testing consecutive negative only
     printf("\ntesting consecutive negative numbers\n");
     int rArray[] = {-1, -2, -3};
+    showArray(rArray, arrayLength);
     arrayLength = sizeof(rArray)/sizeof(rArray[0]);
     lowestInt = lowestIntMissing(rArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
@@ -45,6 +48,7 @@ main(){
     //testing consecutive mixed
     printf("\ntesting consecutive mixed positive and negative\n");
     int sArray[] = {-1, 0, 1};
+    showArray(sArray, arrayLength);
     arrayLength = sizeof(sArray)/sizeof(sArray[0]);
     lowestInt = lowestIntMissing(sArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
@@ -52,6 +56,7 @@ main(){
     //testing consecutive starting beyond 1
     printf("\ntesting numbers starting beyond 1\n");
     int tArray[] = {2, 3, 4};
+    showArray(tArray, arrayLength);
     arrayLength = sizeof(tArray)/sizeof(tArray[0]);
     lowestInt = lowestIntMissing(tArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
@@ -89,26 +94,26 @@ int lowestIntMissing(int* intArray, int size){
     sortArray(intArray, size);
     // get maximum value
     int max = *(intArray + size - 1);
-    printf("\thighest value in the array = %d\n", max);
 
     // remove duplicates
     int newSize = removeDuplicates(intArray, size);
     // compare lengths
     if (newSize < size) size = newSize;
-    printf("\tCurrent size of the array = %d\n", size);
 
     missingInts(intArray, size);
 
-    //below is a stop-gap
     if (max < 1) lowestMissing = 1; //if less than 1, return 1
-    else if (size = 1){ //check for a single element
+    else if (size == 1){ //check for a single element
         if (intArray[0] == 1) lowestMissing = 2;
         else {
             lowestMissing = 1;
         }
     }
-    else lowestMissing = missingInts(intArray, size);
-
+    else{
+        lowestMissing = missingInts(intArray, size);
+    }
+    if (lowestMissing == 0) lowestMissing = *(intArray + size - 1) + 1;
+    //TODO: need a check for min > 1
     return lowestMissing;
 }
 
@@ -122,9 +127,6 @@ void sortArray(int *iArray, int arrayLength){
     // returns nothing, as it works with pointers
 
     qsort (iArray, arrayLength, sizeof(int), comparetor );
-
-    //for (int j = 0; j < arrayLength; ++j)\
-        printf("element %d of array = %d\n", j, *(iArray+j)); //for debugging
 
 }
 
@@ -157,24 +159,30 @@ int missingInts(int* intArray, int arrayLength){
     for (int i = 1; i < arrayLength && diferenceFound == 0; ++i){
         int previous = *(intArray + i - 1);
         int current = *(intArray + i);
-        printf("\t\tValue being checked = %d\n\t\t Previous Value = %d\n\t\t Differnce = %d\n",current, previous, current - previous);
         if (current - previous > 1){
-            printf("\tThat's a big diference\n");
-            diferenceFound = 1;
             out = previous + 1;
+            diferenceFound = 1;
+
         }
     }
-    printf("\t\t%d\n", out);
     return out;
 }
 
-//TODO:look for missing ints
+void showArray(int* array, int size){
+    /* Shows prints out the contents and length of an array to the console
+     * takes an array of integers and the size of the array
+    */
+    printf("The array is size %d\n", size);
+    printf(" The contents of the array are: ");
+    for (int i = 0; i < size; ++i) printf("%d,", *(array + i));
+    printf("\n");
+}
 
 int getArrayLength(int* intArray){
-    // gets the length of a non-character array
-    // This is not possible.
-    // when an array is passed to a function, it decays to a pointer
-    // it is best to get the length of the array whilst it is in scope
+    /* gets the length of a non-character array
+     * This is not possible in the C language.
+     * when an array is passed to a function, it decays to a pointer
+     * it is best to get the length of the array whilst it is in scope*/
     int *p;
     int count = 0;
 
