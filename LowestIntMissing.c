@@ -5,7 +5,7 @@ int lowestIntMissing(int*, int);
 void sortArray(int*, int);
 int getArrayLength(int*);
 int removeDuplicates(int*, int);
-void missingInts(int*, int);
+int missingInts(int*, int);
 
 int comparetor (const void *, const void *);
 
@@ -107,6 +107,7 @@ int lowestIntMissing(int* intArray, int size){
             lowestMissing = 1;
         }
     }
+    else lowestMissing = missingInts(intArray, size);
 
     return lowestMissing;
 }
@@ -147,25 +148,24 @@ int removeDuplicates(int* intArray, int arrayLength){
     return arrayLength;
 }
 
-void missingInts(int* intArray, int arrayLength){
+int missingInts(int* intArray, int arrayLength){
     //takes a sorted array of ints and prints out any that are missing
     int out = 0;
     //preform checks here
     int max = *(intArray + arrayLength - 1);
-    if (max < 1) out = 1;
-    else if (arrayLength = 1){ //check for a single element
-        if (*intArray == 1) out = 2;
-        else {
-            out = 1;
-        }
-    }
-    else{
-        for (int i = 0; i < arrayLength; ++i){
-            printf("\t\t%d\n", *(intArray + i));
+    int diferenceFound = 0;
+    for (int i = 1; i < arrayLength && diferenceFound == 0; ++i){
+        int previous = *(intArray + i - 1);
+        int current = *(intArray + i);
+        printf("\t\tValue being checked = %d\n\t\t Previous Value = %d\n\t\t Differnce = %d\n",current, previous, current - previous);
+        if (current - previous > 1){
+            printf("\tThat's a big diference\n");
+            diferenceFound = 1;
+            out = previous + 1;
         }
     }
     printf("\t\t%d\n", out);
-
+    return out;
 }
 
 //TODO:look for missing ints
