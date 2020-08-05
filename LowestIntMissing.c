@@ -5,28 +5,62 @@ int lowestIntMissing(int*, int);
 void sortArray(int*, int);
 int getArrayLength(int*);
 int removeDuplicates(int*, int);
+void missingInts(int*, int);
 
 int comparetor (const void *, const void *);
 
 main(){
 
     int lowestInt;
-    // input array
+
+    //testing duplicates
+    printf("\ntesting with duplicated numbers\n");
     int iArray[] = {1, 4, 2, 1};
-    // check size of array for checking function output
     int arrayLength = sizeof(iArray)/sizeof(iArray[0]);
     printf("array length = %d\n", arrayLength);
     lowestInt = lowestIntMissing(iArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
+    //testing consecutive, positive only
+    printf("\ntesting consecutive positive integers\n");
     int pArray[] = {1, 2, 3};
     arrayLength = sizeof(pArray)/sizeof(pArray[0]);
     lowestInt = lowestIntMissing(pArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
-    int qArray[] = {2};
+    //testing single element array
+    printf("\ntesting single element array\n");
+    int qArray[] = {1};
     arrayLength = sizeof(qArray)/sizeof(qArray[0]);
     lowestInt = lowestIntMissing(qArray, arrayLength);
+    printf("lowest Missing Integer = %d\n", lowestInt);
+
+    //testing consecutive negative only
+    printf("\ntesting consecutive negative numbers\n");
+    int rArray[] = {-1, -2, -3};
+    arrayLength = sizeof(rArray)/sizeof(rArray[0]);
+    lowestInt = lowestIntMissing(rArray, arrayLength);
+    printf("lowest Missing Integer = %d\n", lowestInt);
+
+    //testing consecutive mixed
+    printf("\ntesting consecutive mixed positive and negative\n");
+    int sArray[] = {-1, 0, 1};
+    arrayLength = sizeof(sArray)/sizeof(sArray[0]);
+    lowestInt = lowestIntMissing(sArray, arrayLength);
+    printf("lowest Missing Integer = %d\n", lowestInt);
+
+    //testing consecutive starting beyond 1
+    printf("\ntesting numbers starting beyond 1\n");
+    int tArray[] = {2, 3, 4};
+    arrayLength = sizeof(tArray)/sizeof(tArray[0]);
+    lowestInt = lowestIntMissing(tArray, arrayLength);
+    printf("lowest Missing Integer = %d\n", lowestInt);
+
+    //testing missing below 0
+    printf("\ntesting missing number below 0\n");
+    int uArray[] = {-2, -3, -4};
+    arrayLength = sizeof(uArray)/sizeof(uArray[0]);
+    lowestInt = lowestIntMissing(uArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
     return 0;
 }
@@ -40,14 +74,17 @@ int lowestIntMissing(int* intArray, int size){
     sortArray(intArray, size);
     // get maximum value
     int max = *(intArray + size - 1);
-    printf("highest value in the array = %d\n", max);
+    printf("\thighest value in the array = %d\n", max);
 
     // remove duplicates
     int newSize = removeDuplicates(intArray, size);
     // compare lengths
     if (newSize < size) size = newSize;
-    printf("Current size of the array = %d\n", size);
+    printf("\tCurrent size of the array = %d\n", size);
 
+    missingInts(intArray, size);
+
+    //below is a stop-gap
     if (max < 1) lowestMissing = 1; //if less than 1, return 1
     else if (size = 1){ //check for a single element
         if (intArray[0] == 1) lowestMissing = 2;
@@ -55,6 +92,7 @@ int lowestIntMissing(int* intArray, int size){
             lowestMissing = 1;
         }
     }
+
     return lowestMissing;
 }
 
@@ -93,6 +131,29 @@ int removeDuplicates(int* intArray, int arrayLength){
     }
     return arrayLength;
 }
+
+void missingInts(int* intArray, int arrayLength){
+    //takes a sorted array of ints and prints out any that are missing
+    int out = 0;
+    //preform checks here
+    int max = *(intArray + arrayLength - 1);
+    if (max < 1) out = 1;
+    else if (arrayLength = 1){ //check for a single element
+        if (*intArray == 1) out = 2;
+        else {
+            out = 1;
+        }
+    }
+    else{
+    for (int i = 0; i < arrayLength; ++i){
+        printf("\t\t%d\n", *(intArray + i));
+    }
+    printf("\t\t%d\n", out);
+
+    }
+}
+
+//TODO:look for missing ints
 
 int getArrayLength(int* intArray){
     // gets the length of a non-character array
