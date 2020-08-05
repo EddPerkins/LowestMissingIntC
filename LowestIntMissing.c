@@ -21,6 +21,14 @@ main(){
     lowestInt = lowestIntMissing(iArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
+    //testing nothing but duplicates
+    printf("\ntesting with all duplicated numbers\n");
+    int jArray[] = {1, 1, 1, 1};
+    arrayLength = sizeof(jArray)/sizeof(jArray[0]);
+    showArray(jArray, arrayLength);
+    lowestInt = lowestIntMissing(jArray, arrayLength);
+    printf("lowest Missing Integer = %d\n", lowestInt);
+
     //testing consecutive, positive only
     printf("\ntesting consecutive positive integers\n");
     int pArray[] = {1, 2, 3};
@@ -93,13 +101,10 @@ int lowestIntMissing(int* intArray, int size){
      *  feeds the array into various functions before checking conditions
     */
     int lowestMissing = 0;
-    // sort array
+
     sortArray(intArray, size);
-    // get maximum value
     int max = *(intArray + size - 1);
-    // remove duplicates
     int newSize = removeDuplicates(intArray, size);
-    // update size
     if (newSize < size) size = newSize;
 
     if (max < 1) lowestMissing = 1; //if less than 1, return 1
@@ -120,9 +125,9 @@ int comparetor (const void * a, const void * b){
 }
 
 void sortArray(int *iArray, int arrayLength){
-    // uses comparator to sort the array in order of size
-    // requires an array and the length of the array to be passed
-    // returns nothing, as it works with pointers
+    /* uses comparator to sort the array in order of size
+     * requires an array and the length of the array to be passed
+     * returns nothing, as it works with pointers */
     qsort (iArray, arrayLength, sizeof(int), comparetor );
 }
 
@@ -147,7 +152,9 @@ int removeDuplicates(int* intArray, int arrayLength){
 }
 
 int missingInts(int* intArray, int arrayLength){
-    //takes a sorted array of ints and prints out any that are missing
+    /*
+     * takes a sorted array of ints and prints out any that are missing*/
+
     int out = 0;
     int diferenceFound = 0;
     //preform checks here
@@ -165,6 +172,7 @@ int missingInts(int* intArray, int arrayLength){
 void showArray(int* array, int size){
     /* Shows prints out the contents and length of an array to the console
      * takes an array of integers and the size of the array
+     * used for debugging
     */
     printf("The contents of the array are: ");
     for (int i = 0; i < size; ++i) printf("%d,", *(array + i));
@@ -177,11 +185,12 @@ int getArrayLength(int* intArray){
     /* gets the length of a non-character array
      * This is not possible in the C language.
      * when an array is passed to a function, it decays to a pointer
-     * it is best to get the length of the array whilst it is in scope*/
+     * it is best to get the length of the array whilst it is in scope
+     * This function is only here as a curiosity*/
     int *p;
     int count = 0;
 
-    for (p=intArray; p<&intArray+1; ++p){ //this cannot work
+    for (p=intArray; p<&intArray+1; ++p){ //this cannot work without a terminator value
         ++count;
     }
     printf("array length (func) = %d\n", count);
