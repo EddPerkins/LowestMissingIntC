@@ -101,7 +101,6 @@ void testArrarys(void){
     showArray(wArray, arrayLength);
     lowestInt = lowestIntMissing(wArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
-
 }
 
 int lowestIntMissing(int* intArray, int size){
@@ -124,7 +123,6 @@ int lowestIntMissing(int* intArray, int size){
         lowestMissing = missingInts(intArray, size);
     }
     if (lowestMissing == 0) lowestMissing = *(intArray + size - 1) + 1;
-    //TODO: need a check for min > 1
     return lowestMissing;
 }
 
