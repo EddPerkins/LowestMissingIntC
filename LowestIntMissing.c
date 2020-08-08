@@ -1,9 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+void testArrarys(void);
+//void variableArrays(void); //for the next part of the exercise
+
 int lowestIntMissing(int*, int);
 void sortArray(int*, int);
-int getArrayLength(int*);
 int removeDuplicates(int*, int);
 int missingInts(int*, int);
 void showArray(int*, int);
@@ -11,17 +13,24 @@ void showArray(int*, int);
 int comparetor (const void *, const void *);
 
 main(){
-    int lowestInt;
+    testArrarys();
+    return 0;
+}
+
+void testArrarys(void){
+    //test cases for the function
     int arrayLength;
-    //testing duplicates
+    int lowestInt;
+
+    //test duplicated numbers
     printf("\ntesting with duplicated numbers\n");
     int iArray[] = {1, 4, 2, 1};
-    arrayLength = sizeof(iArray)/sizeof(iArray[0]);
+    arrayLength = sizeof(iArray)/sizeof(int);
     showArray(iArray, arrayLength);
     lowestInt = lowestIntMissing(iArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
-    //testing nothing but duplicates
+        //testing nothing but duplicates
     printf("\ntesting with all duplicated numbers\n");
     int jArray[] = {1, 1, 1, 1};
     arrayLength = sizeof(jArray)/sizeof(jArray[0]);
@@ -93,7 +102,6 @@ main(){
     lowestInt = lowestIntMissing(wArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
-    return 0;
 }
 
 int lowestIntMissing(int* intArray, int size){
@@ -158,12 +166,15 @@ int missingInts(int* intArray, int arrayLength){
     int out = 0;
     int diferenceFound = 0;
     //preform checks here
-    for (int i = 1; i < arrayLength && diferenceFound == 0; ++i){
-        int previous = *(intArray + i - 1);
-        int current = *(intArray + i);
-        if (current - previous > 1){
-            out = previous + 1;
-            diferenceFound = 1;
+    if (*intArray > 1) out = 1;
+    else{
+        for (int i = 1; i < arrayLength && diferenceFound == 0; ++i){
+            int previous = *(intArray + i - 1);
+            int current = *(intArray + i);
+            if (current - previous > 1){
+                out = previous + 1;
+                diferenceFound = 1;
+            }
         }
     }
     return out;
