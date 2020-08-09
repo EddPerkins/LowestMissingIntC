@@ -1,8 +1,10 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
 
 void testArrarys(void);
 //void variableArrays(void); //for the next part of the exercise
+int bubbleSortArray(int*, int); //exercise for bubblesort in C
 
 int lowestIntMissing(int*, int);
 void sortArray(int*, int);
@@ -14,6 +16,7 @@ int comparetor (const void *, const void *);
 
 main(){
     testArrarys();
+
     return 0;
 }
 
@@ -108,8 +111,14 @@ int lowestIntMissing(int* intArray, int size){
      *  feeds the array into various functions before checking conditions
     */
     int lowestMissing = 0;
+    int swapCount = 1;
 
-    sortArray(intArray, size);
+    //sortArray(intArray, size); //for when I don't want to use bubblesort
+    //using my bubblesort to sort the array
+    while (swapCount > 0 && size > 1){ //won't run if the array is too small
+        swapCount = bubbleSortArray(intArray, size);
+    }
+
     int max = *(intArray + size - 1);
     int newSize = removeDuplicates(intArray, size);
     if (newSize < size) size = newSize;
@@ -128,6 +137,24 @@ int lowestIntMissing(int* intArray, int size){
 
 int comparetor (const void * a, const void * b){
     return ( *(int*)a - *(int*)b );
+}
+
+int bubbleSortArray(int *iArray, int arrayLength){
+    /* Uses bubble sort to sort an array
+    */
+    //int max = INT_MAX;
+    //int min = INT_MIN;
+    int swapCount = 0;
+    int numA;
+    for (int i = 1; i < arrayLength; ++i){
+        if (*(iArray + i - 1) > *(iArray + i)){
+            numA = *(iArray + i);
+            iArray[i] = *(iArray + i - 1);
+            iArray[i - 1] = numA;
+            ++swapCount;
+        }
+    }
+    return swapCount;
 }
 
 void sortArray(int *iArray, int arrayLength){
