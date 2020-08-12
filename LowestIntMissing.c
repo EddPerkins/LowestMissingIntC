@@ -35,7 +35,7 @@ void testArrarys(void){
     int arrayLength;
     int lowestInt;
 
-    //test duplicated numbers
+    // test duplicated numbers
     printf("\ntesting with duplicated numbers\n");
     int iArray[] = {1, 4, 2, 1};
     arrayLength = sizeof(iArray)/sizeof(int);
@@ -43,7 +43,7 @@ void testArrarys(void){
     lowestInt = lowestIntMissing(iArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
-        //testing nothing but duplicates
+    // testing nothing but duplicates
     printf("\ntesting with all duplicated numbers\n");
     int jArray[] = {1, 1, 1, 1};
     arrayLength = sizeof(jArray)/sizeof(jArray[0]);
@@ -51,7 +51,7 @@ void testArrarys(void){
     lowestInt = lowestIntMissing(jArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
-    //testing consecutive, positive only
+    // testing consecutive, positive only
     printf("\ntesting consecutive positive integers\n");
     int pArray[] = {1, 2, 3};
     arrayLength = sizeof(pArray)/sizeof(pArray[0]);
@@ -59,7 +59,7 @@ void testArrarys(void){
     lowestInt = lowestIntMissing(pArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
-    //testing single element array
+    // testing single element array
     printf("\ntesting single element array\n");
     int qArray[] = {1};
     arrayLength = sizeof(qArray)/sizeof(qArray[0]);
@@ -67,7 +67,7 @@ void testArrarys(void){
     lowestInt = lowestIntMissing(qArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
-    //testing consecutive negative only
+    // testing consecutive negative only
     printf("\ntesting consecutive negative numbers\n");
     int rArray[] = {-1, -2, -3};
     arrayLength = sizeof(rArray)/sizeof(rArray[0]);
@@ -75,7 +75,7 @@ void testArrarys(void){
     lowestInt = lowestIntMissing(rArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
-    //testing consecutive mixed
+    // testing consecutive mixed
     printf("\ntesting consecutive mixed positive and negative\n");
     int sArray[] = {-1, 0, 1};
     arrayLength = sizeof(sArray)/sizeof(sArray[0]);
@@ -83,7 +83,7 @@ void testArrarys(void){
     lowestInt = lowestIntMissing(sArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
-    //testing consecutive starting beyond 1
+    // testing consecutive starting beyond 1
     printf("\ntesting numbers starting beyond 1\n");
     int tArray[] = {2, 3, 4};
     arrayLength = sizeof(tArray)/sizeof(tArray[0]);
@@ -91,7 +91,7 @@ void testArrarys(void){
     lowestInt = lowestIntMissing(tArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
-    //testing missing below 0
+    // testing missing below 0
     printf("\ntesting missing number below 0\n");
     int uArray[] = {-2, -3, -4};
     arrayLength = sizeof(uArray)/sizeof(uArray[0]);
@@ -99,7 +99,7 @@ void testArrarys(void){
     lowestInt = lowestIntMissing(uArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
-    //testing multiple missing numbers
+    // testing multiple missing numbers
     printf("\ntesting multiple missing numbers\n");
     int vArray[] = {1, 3, 5};
     arrayLength = sizeof(vArray)/sizeof(vArray[0]);
@@ -107,7 +107,7 @@ void testArrarys(void){
     lowestInt = lowestIntMissing(vArray, arrayLength);
     printf("lowest Missing Integer = %d\n", lowestInt);
 
-    //testing missing multiple numbers
+    // testing missing multiple numbers
     printf("\ntesting missing multiple numbers\n");
     int wArray[] = {1, 2, 5};
     arrayLength = sizeof(wArray)/sizeof(wArray[0]);
@@ -121,27 +121,25 @@ int lowestIntMissing(int* intArray, int size){
      *  feeds the array into various functions before checking conditions
     */
     int lowestMissing = 0;
-    int swapCount = 1;
 
-    //sortArray(intArray, size); //for when I don't want to use bubblesort
-    //using my bubblesort to sort the array
-    //while (swapCount > 0 && size > 1){ //won't run if the array is too small
-    //    swapCount = bubbleSortArray(intArray, size);
-    //}
-    if (size > 1) bubbleSortArray(intArray, size);
-    int max = *(intArray + size - 1);
-    int newSize = removeDuplicates(intArray, size);
-    if (newSize < size) size = newSize;
+    // sortArray(intArray, size); //for when I don't want to use bubblesort
+
+    // using my bubblesort to sort the array
+    if (size > 1) bubbleSortArray(intArray, size); // skip if array is size 1
+
+    int max = *(intArray + size - 1); // get maximum value of the sorted array
+    size = removeDuplicates(intArray, size); // update sized based on removed ints
 
     if (max < 1) lowestMissing = 1; //if less than 1, return 1
     else if (size == 1){ //check for a single element
-        if (intArray[0] == 1) lowestMissing = 2;
+        if (intArray[0] == 1) lowestMissing = 2; //is 1
         else lowestMissing = 1;
     }
     else{
         lowestMissing = missingInts(intArray, size);
     }
-    if (lowestMissing == 0) lowestMissing = *(intArray + size - 1) + 1;
+    // following will check if array is consecutive and starting at 1 or below
+    if (lowestMissing == 0) lowestMissing = max + 1;
     return lowestMissing;
 }
 
@@ -153,16 +151,16 @@ void bubbleSortArray(int *iArray, int arrayLength){
     /* Uses bubble sort to sort an array
     */
     int swapCount;
+    int numA; // third variable for swapping values in array around
 
-    int numA;
-    while (swapCount != 0){
-        swapCount = 0;
-        for (int i = 1; i < arrayLength; ++i){
-            if (*(iArray + i - 1) > *(iArray + i)){
+    while (swapCount != 0){ // loop to check if array has finished sorting
+        swapCount = 0; // if this remains at 0 at end of loop, exit the loop
+        for (int i = 1; i < arrayLength; ++i){ // loop for sorting
+            if (*(iArray + i - 1) > *(iArray + i)){ // swap logic
                 numA = *(iArray + i);
                 iArray[i] = *(iArray + i - 1);
                 iArray[i - 1] = numA;
-                ++swapCount;
+                ++swapCount; //increment swap counter if a swap has taken place
             }
         }
     }
