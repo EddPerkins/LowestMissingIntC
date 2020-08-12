@@ -1,17 +1,27 @@
+/* LowestIntMissing.c Main File
+ * Created by Edward Perkins on 27/07/2020
+ * Examines a given unsorted array of integers and will display the lowest
+ * missing value
+ * Planned to add: a user input that makes use of malloc/realloc/free
+ * 05/08/2020   Completed integer check, completing the exercise.
+ * 09/08/2020   Added a bubblesort as an exercise to replace qsort
+ * 12/08/2020   made bubblesort function more self contained*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
 
 void testArrarys(void);
 //void variableArrays(void); //for the next part of the exercise
-int bubbleSortArray(int*, int); //exercise for bubblesort in C
+void bubbleSortArray(int*, int); //exercise for bubblesort in C
 
 int lowestIntMissing(int*, int);
-void sortArray(int*, int);
 int removeDuplicates(int*, int);
 int missingInts(int*, int);
 void showArray(int*, int);
 
+//following declared functions are no longer in use, but have been kept.
+void sortArray(int*, int);
 int comparetor (const void *, const void *);
 
 main(){
@@ -115,10 +125,10 @@ int lowestIntMissing(int* intArray, int size){
 
     //sortArray(intArray, size); //for when I don't want to use bubblesort
     //using my bubblesort to sort the array
-    while (swapCount > 0 && size > 1){ //won't run if the array is too small
-        swapCount = bubbleSortArray(intArray, size);
-    }
-
+    //while (swapCount > 0 && size > 1){ //won't run if the array is too small
+    //    swapCount = bubbleSortArray(intArray, size);
+    //}
+    if (size > 1) bubbleSortArray(intArray, size);
     int max = *(intArray + size - 1);
     int newSize = removeDuplicates(intArray, size);
     if (newSize < size) size = newSize;
@@ -139,22 +149,23 @@ int comparetor (const void * a, const void * b){
     return ( *(int*)a - *(int*)b );
 }
 
-int bubbleSortArray(int *iArray, int arrayLength){
+void bubbleSortArray(int *iArray, int arrayLength){
     /* Uses bubble sort to sort an array
     */
-    //int max = INT_MAX;
-    //int min = INT_MIN;
-    int swapCount = 0;
+    int swapCount;
+
     int numA;
-    for (int i = 1; i < arrayLength; ++i){
-        if (*(iArray + i - 1) > *(iArray + i)){
-            numA = *(iArray + i);
-            iArray[i] = *(iArray + i - 1);
-            iArray[i - 1] = numA;
-            ++swapCount;
+    while (swapCount != 0){
+        swapCount = 0;
+        for (int i = 1; i < arrayLength; ++i){
+            if (*(iArray + i - 1) > *(iArray + i)){
+                numA = *(iArray + i);
+                iArray[i] = *(iArray + i - 1);
+                iArray[i - 1] = numA;
+                ++swapCount;
+            }
         }
     }
-    return swapCount;
 }
 
 void sortArray(int *iArray, int arrayLength){
@@ -186,11 +197,11 @@ int removeDuplicates(int* intArray, int arrayLength){
 
 int missingInts(int* intArray, int arrayLength){
     /*
-     * takes a sorted array of ints and prints out any that are missing*/
+     * takes a sorted array of ints and returns the lowest one missing*/
 
     int out = 0;
-    int diferenceFound = 0;
-    //preform checks here
+    int diferenceFound = 0; // token that is flipped to one when a difference is found
+
     if (*intArray > 1) out = 1;
     else{
         for (int i = 1; i < arrayLength && diferenceFound == 0; ++i){
